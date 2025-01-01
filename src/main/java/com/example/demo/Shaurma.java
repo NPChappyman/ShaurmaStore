@@ -1,4 +1,5 @@
 package com.example.demo;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.constraints.NotNull;
@@ -13,7 +14,9 @@ public class Shaurma {
     @NotNull
  @Size(min=1, message="You must choose at least 1 ingredient")
     private List<Ingredient> ingredients; // Поле для хранения выбранных ингредиентов
-
+    private Long id;
+    private Date createdAt = new Date();
+   
     // Геттер для ingredients
     public List<Ingredient> getIngredients() {
         return ingredients;

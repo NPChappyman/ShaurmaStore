@@ -3,7 +3,16 @@
  xmlns:th="http://www.thymeleaf.org">
  <head>
  <title>Shaurma Cloud</title>
- <link rel="stylesheet" th:href="@{/styles.css}" />
+ <style>
+    /* CSS для изменения цвета текста */
+    .validationError {
+        color: red; /* Красный цвет для ошибок */
+    }
+
+    .success {
+        color: green; /* Зеленый цвет для успешных сообщений */
+    }
+</style>
  </head>
  <body>
  <form method="POST" th:action="@{/orders}" th:object="${shaurmaOrder}">
@@ -39,7 +48,10 @@
  <input type="text" th:field="*{ccExpiration}"/>
  <br/>
  <label for="ccCVV">CVV: </label>
- <input type="text" th:field="*{ccCVV}"/>
+    <input type="text" th:field="*{ccCVV}"/>
+    <span class="validationError"
+        th:if="${#fields.hasErrors('ccNumber')}"
+ th:errors="*{ccNumber}">CC Num Error</span>
  <br/>
  <input type="submit" value="Submit Order"/>
  </form>

@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: demo
+  thymeleaf:
+    cache: false
+  datasource:
+    generate-unique-name: false
+    name: shaurmacloud
+
+server:
+  port: 8181

@@ -1,11 +1,14 @@
 package com.example.demo;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,27 +24,20 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/design")
 @SessionAttributes("shaurmaOrder")
 public class DesignShaurmaController {
-    
+    private final IngredientRepository ingredientRepo;
+    @Autowired
+    public DesignShaurmaController(IngredientRepository ingredientRepo) {
+    this.ingredientRepo = ingredientRepo;
+    }
         @ModelAttribute
         public void addIngredientsToModel(Model model) {
-            List<Ingredient> ingredients = Arrays.asList(
-               new Ingredient("TOBA","Tomato Bakinsky",Type.VEGGIES),
-               new Ingredient("MAYA","Mayanez",Type.SAUCE),
-               new Ingredient("LAVA", "Lavash", Type.WRAP),
-               new Ingredient("CHEE", "Cheese", Type.CHEESE),
-               new Ingredient("OGUR", "Ogurez simple", Type.VEGGIES),
-               new Ingredient("OGSO", "Ogurez solyuoniy", Type.VEGGIES),
-               new Ingredient("KURA", "Kurochka", Type.PROTEIN),
-               new Ingredient("GOVA", "Govyadina", Type.PROTEIN),
-               new Ingredient("SALA", "SALAT", Type.VEGGIES)
-            );
+            List<Ingredient> ingredients = ingredientRepo.findAll();
             Type[] types = Ingredient.Type.values();
             for (Type type : types) {
-            model.addAttribute(type.toString().toLowerCase(),filterByType(ingredients, type));
+            model.addAttribute(type.toString().toLowerCase(),
+            filterByType(ingredients, type));
             }
-            
-            
-            }
+        }
             @ModelAttribute(name = "shaurmaOrder")
             public ShaurmaOrder order() {
             return new ShaurmaOrder();
@@ -59,8 +55,11 @@ public class DesignShaurmaController {
             return ingredients.stream().filter(x -> x.getType().equals(type)).collect(Collectors.toList());
             }
             @PostMapping
-            public String processShaurma(Shaurma shaurma, @ModelAttribute ShaurmaOrder shaurmaOrder) {
-                    shaurmaOrder.addShaurma(shaurma);
+            public String processShaurma(@Valid Shaurma shaurma,  Errors errors,@ModelAttribute ShaurmaOrder shaurmaOrder) {
+                if (errors.hasErrors()) {
+                    return "design";
+                    }    
+                shaurmaOrder.addShaurma(shaurma);
                     log.info("Processing shaurma: {}", shaurma);
                 return "redirect:/orders/current";
 }
