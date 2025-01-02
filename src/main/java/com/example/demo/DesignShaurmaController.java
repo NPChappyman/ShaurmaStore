@@ -3,9 +3,6 @@ package com.example.demo;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -17,6 +14,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.demo.Ingredient.Type;
 
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -25,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @SessionAttributes("shaurmaOrder")
 public class DesignShaurmaController {
     private final IngredientRepository ingredientRepo;
-    @Autowired
+    
     public DesignShaurmaController(IngredientRepository ingredientRepo) {
     this.ingredientRepo = ingredientRepo;
     }
@@ -55,7 +53,7 @@ public class DesignShaurmaController {
             return ingredients.stream().filter(x -> x.getType().equals(type)).collect(Collectors.toList());
             }
             @PostMapping
-            public String processShaurma(@Valid Shaurma shaurma,  Errors errors,@ModelAttribute ShaurmaOrder shaurmaOrder) {
+            public String processShaurma(@Valid @ModelAttribute Shaurma shaurma,  Errors errors, @ModelAttribute ShaurmaOrder shaurmaOrder) {
                 if (errors.hasErrors()) {
                     return "design";
                     }    

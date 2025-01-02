@@ -7,12 +7,27 @@
  </head>
  <body>
  <h1>Design your Shava!</h1>
+
+ <style>
+    /* CSS для изменения цвета текста */
+    .validationError {
+        color: red; /* Красный цвет для ошибок */
+    }
+
+    .success {
+        color: green; /* Зеленый цвет для успешных сообщений */
+    }
+</style>
  <img th:src="@{/img/Shava.jpg}"/>
  <form method="POST" th:object="${shaurma}">
+    
     <br/>
     <label for="name">Shaurma's name: </label>
     <input type="text" th:field="*{name}"/>
-    <br/>
+    <div>
+    <span class="validationError"
+          th:if="${#fields.hasErrors('name')}"
+          th:errors="*{name}">CC Num Error</span></div>
     <div class="grid">
         <div class="ingredient-group" id="wrap">
             <h3>Designate your wrap:</h3>
@@ -53,8 +68,12 @@
                 <span th:text="${ingredient.name}">INGREDIENT</span><br />
             </div>
         </div>
-
+        
         <button type="submit">Submit</button>
+        <span class="validationError"
+          th:if="${#fields.hasErrors('ingredients')}"
+          th:errors="*{ingredients}">Ingredient Error</span>
+        
     </div>
 </form>
 

@@ -3,12 +3,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
 import org.hibernate.validator.constraints.CreditCardNumber;
 
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 
 
@@ -17,8 +16,12 @@ public class ShaurmaOrder {
     private static final long serialVersionUID = 1L;
  private Long id;
  private Date placedAt;
+
+
     @NotBlank(message="Delivery name is required")
     private String deliveryName;
+
+
     @NotBlank(message="Street is required")
     private String deliveryStreet;
     @NotBlank(message="City is required")
@@ -86,27 +89,27 @@ public class ShaurmaOrder {
         this.deliveryZip = deliveryZip;
     }
 
-    public String getCcNumber() {
+    public String getccNumber() {
         return ccNumber;
     }
 
-    public void setCcNumber(String ccNumber) {
+    public void setccNumber(String ccNumber) {
         this.ccNumber = ccNumber;
     }
 
-    public String getCcExpiration() {
+    public String getccExpiration() {
         return ccExpiration;
     }
 
-    public void setCcExpiration(String ccExpiration) {
+    public void setccExpiration(String ccExpiration) {
         this.ccExpiration = ccExpiration;
     }
 
-    public String getCcCVV() {
+    public String getccCVV() {
         return ccCVV;
     }
 
-    public void setCcCVV(String ccCVV) {
+    public void setccCVV(String ccCVV) {
         this.ccCVV = ccCVV;
     }
 }
